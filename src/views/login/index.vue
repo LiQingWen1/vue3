@@ -1,17 +1,17 @@
 <template>
   <div class="login">
-    <el-form ref="LoginForm" :model="form" :rules="formInput">
+    <el-form ref="LoginForm" :model="loginForm" :rules="formInput">
       <div class="title-container">
         <h3 class="title">用户登录</h3>
         <svg-icon className="svg-language" icon="language"></svg-icon>
       </div>
       <el-form-item prop="username">
         <el-icon><User /></el-icon>
-        <el-input v-model="form.username" />
+        <el-input v-model="loginForm.username" />
       </el-form-item>
       <el-form-item prop="password">
         <el-icon><Lock /></el-icon>
-        <el-input :type="inputType" v-model="form.password"></el-input>
+        <el-input :type="inputType" v-model="loginForm.password"></el-input>
         <span class="svg-pwd" @click="handllePassWordStatus">
           <el-icon>
             <svg-icon :icon="passwordIconStatus"></svg-icon>
@@ -19,7 +19,7 @@
         </span>
       </el-form-item>
 
-      <el-button class="login-button" type="primary" @click="add(LoginForm)"
+      <el-button class="login-button" type="primary" @click="handleLoginSubmit"
         >登陆</el-button
       >
     </el-form>
@@ -32,11 +32,13 @@ import { login } from '../../api/login'
 import { reactive, ref, computed } from 'vue'
 import { validatePassword } from './rule'
 import { User, Lock } from '@element-plus/icons-vue'
+import md5 from 'md5'
 const inputType = ref('password')
 const router = useRouter()
-const form = reactive({
-  username: '',
-  password: ''
+const LoginForm = ref()
+const loginForm = reactive({
+  username: 'super-admin',
+  password: '123456'
 })
 
 const formInput = reactive({
@@ -55,22 +57,38 @@ const formInput = reactive({
     }
   ]
 })
-const add = async (formName) => {
-  login(form)
-  router.push('/profile')
-  if (!formName) return
-  await formName.validate((valid) => {
-    if (valid) {
-      alert('登录')
-    }
-  })
-}
+// const add = async (formName) => {
+//   login(loginForm)
+//   router.push('/profile')
+//   if (!formName) return
+//   await formName.validate((valid) => {
+//     if (valid) {
+//       alert('登录')
+//     }
+//   })
+// }
 const handllePassWordStatus = () => {
   inputType.value = inputType.value === 'password' ? 'text' : 'password'
 }
 const passwordIconStatus = computed(() => {
   return inputType.value === 'password' ? 'eye' : 'eye-open'
 })
+
+/**
+ * 登录方式
+ */
+const handleLoginSubmit = async () => {
+  if (!LoginForm.value) return
+  await LoginForm.value.validate(async (valid) => {
+    if (valid) {
+      alert('登录')
+      router.push('/profile')
+      loginForm.password = md5(loginForm.password)
+      const response = await login.login(loginForm)
+      console.log(response)
+    }
+  })
+}
 </script>
 
 <style scoped lang="scss">
