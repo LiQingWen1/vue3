@@ -28,7 +28,7 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { login } from '../../api/login'
+import UserApi from '../../api/user'
 import { reactive, ref, computed } from 'vue'
 import { validatePassword } from './rule'
 import { User, Lock } from '@element-plus/icons-vue'
@@ -74,7 +74,7 @@ const handleLoginSubmit = async () => {
       alert('登录')
       router.push('/profile')
       loginForm.password = md5(loginForm.password)
-      const response = await login.login(loginForm)
+      const response = await UserApi.login(loginForm)
       console.log(response)
     }
   })
