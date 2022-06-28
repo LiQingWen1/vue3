@@ -57,16 +57,6 @@ const formInput = reactive({
     }
   ]
 })
-// const add = async (formName) => {
-//   login(loginForm)
-//   router.push('/profile')
-//   if (!formName) return
-//   await formName.validate((valid) => {
-//     if (valid) {
-//       alert('登录')
-//     }
-//   })
-// }
 const handllePassWordStatus = () => {
   inputType.value = inputType.value === 'password' ? 'text' : 'password'
 }
