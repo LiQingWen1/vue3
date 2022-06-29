@@ -28,11 +28,14 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import UserApi from '../../api/user'
+// import UserApi from '../../api/user'
 import { reactive, ref, computed } from 'vue'
 import { validatePassword } from './rule'
 import { User, Lock } from '@element-plus/icons-vue'
 import md5 from 'md5'
+import { useStore } from 'vuex'
+import util from '../../utils/util'
+const store = useStore()
 const inputType = ref('password')
 const router = useRouter()
 const LoginForm = ref()
@@ -72,9 +75,15 @@ const handleLoginSubmit = async () => {
   await LoginForm.value.validate(async (valid) => {
     if (valid) {
       alert('登录')
-      router.push('/profile')
-      loginForm.password = md5(loginForm.password)
-      const response = await UserApi.login(loginForm)
+      // router.push('/')
+      // loginForm.password = md5(loginForm.password)
+      // const response = await UserApi.login(loginForm)
+
+      const newLoginForm = util.deepCopy(loginForm)
+      newLoginForm.password = md5(newLoginForm.password)
+
+      const response = await store.dispatch('user/login', newLoginForm)
+      if (response.token) router.push('/')
       console.log(response)
     }
   })

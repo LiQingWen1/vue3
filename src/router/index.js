@@ -8,8 +8,38 @@ const publicRoutes = [
   },
   {
     path: '/',
-    name: 'profile',
-    component: () => import('../layout/index.vue')
+    component: () => import('../layout/Sidebar/index'),
+    redirect: '/profile',
+    children: [
+      {
+        path: '/profile',
+        name: 'profile',
+        component: () => import('../views/profile'),
+        meta: {
+          title: '个人中心',
+          icon: 'personnel'
+        }
+      },
+      {
+        path: '/chart',
+        name: 'chart',
+        component: () => import('../views/chart'),
+        meta: {
+          title: '数据可视化',
+          icon: 'chart'
+        }
+      },
+      {
+        path: '/404',
+        name: '404',
+        component: () => import('../views/error-page/404')
+      },
+      {
+        path: '/401',
+        name: '401',
+        component: () => import('../views/error-page/401')
+      }
+    ]
   }
 ]
 

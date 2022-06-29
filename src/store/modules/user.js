@@ -9,6 +9,7 @@ export default {
     setToken(state, token) {
       state.token = token
       setItem('token', token)
+      console.log(state.token)
     }
   },
   actions: {

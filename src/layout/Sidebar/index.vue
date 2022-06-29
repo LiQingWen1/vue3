@@ -21,15 +21,6 @@
           text-color="#fff"
         >
           <el-sub-menu index="1">
-            <!-- <template #title>
-              <el-icon><location /></el-icon>
-              <span>Navigator One</span>
-            </template>
-            <el-sub-menu index="1-4">
-              <template #title>item four</template>
-              <el-menu-item index="1-4-1">item one</el-menu-item>
-            </el-sub-menu> -->
-
             <Item v-for="(item, i) in array" :key="i" :item="item" />
           </el-sub-menu>
         </el-menu>
@@ -134,7 +125,7 @@ li.three {
 }
 
 .headers {
-  height: var(--59cf8ee8) px;
+  // height: var(59cf8ee8) px;
   padding: 10px 0 22px 0;
   display: flex;
   align-items: center;
@@ -162,5 +153,4 @@ li.three {
   -webkit-transition: width 0.25s;
   -o-transition: width 0.25s;
 }
-
 </style>
