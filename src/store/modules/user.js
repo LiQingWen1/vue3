@@ -1,15 +1,20 @@
 import UserApi from '../../api/user'
-import { setItem, getItem } from '../../utils/storage'
+import { setItem, getItem, removeItem } from '../../utils/storage'
 export default {
   namespaced: true,
   state: () => ({
-    token: getItem('token') || ''
+    token: getItem('token') || '',
+    userInfo: getItem('userInfo') || ''
   }),
   mutations: {
     setToken(state, token) {
       state.token = token
       setItem('token', token)
       console.log(state.token)
+    },
+    setUserInfo(state, userInfo) {
+      state.userInfo = userInfo
+      setItem('userInfo', userInfo)
     }
   },
   actions: {
@@ -21,6 +26,21 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    async getUserInfo({ commit }) {
+      try {
+        const response = await UserApi.getUserInfo()
+        commit('setUserInfo', response)
+        return response
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    logout({ commit }) {
+      commit('setToken', '')
+      commit('setUserInfo', '')
+      removeItem('token')
+      removeItem('userInfo')
     }
   }
 }
