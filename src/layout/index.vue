@@ -34,7 +34,7 @@ import TagsView from '@/components/TagsView'
     top: 0;
     bottom: 0;
     -ms-overflow-style: none; /* IE 10+ */
-    scrollbar-width: none; /* Firefox */
+    // scrollbar-width: none; /* Firefox */
   }
 
   .main-container {
